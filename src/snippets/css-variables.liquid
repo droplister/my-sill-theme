@@ -1,12 +1,16 @@
 <style>
-  {{ settings.font_heading | font_face }}
-  {{ settings.font_body | font_face }}
 
-  {%- assign font_body_bold = settings.font_body | font_modify: 'weight', 'bolder' -%}
-  {%- assign font_body_bold_italic = font_body_bold | font_modify: 'style', 'italic' -%}
+  @font-face {
+    font-family: 'Domaine-Medium';
+    src: url({{ 'DomaineTextWeb-Medium.woff2' | asset_url }}) format("woff2"),
+         url({{ 'DomaineTextWeb-Medium.woff' | asset_url }}) format("woff");
+  }
 
-  {{ font_body_bold | font_face }}
-  {{ font_body_bold_italic | font_face }}
+  @font-face {
+    font-family: 'Domaine-Regular';
+    src: url({{ 'DomaineTextWeb-Regular.woff2' | asset_url }}) format("woff2"),
+         url({{ 'DomaineTextWeb-Regular.woff' | asset_url }}) format("woff");
+  }
 
   :root {
     --color-accent: {{ settings.color_accent }};
@@ -14,10 +18,10 @@
     --color-main-background: {{ settings.color_main_bg }};
     --color-border: {{ settings.color_body_text | color_lighten: 50 }};
 
-    --font-heading: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
-    --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+    --font-heading: 'Domaine-Medium', {{ settings.font_heading.fallback_families }};
+    --font-body:'Domaine-Regular', {{ settings.font_body.fallback_families }};
     --font-body-weight: {{ settings.font_body.weight }};
     --font-body-style: {{ settings.font_body.style }};
-    --font-body-bold-weight: {{ font_body_bold.weight | default: 'bold' }};
+    --font-body-bold-weight: 'bold';
   }
 </style>
