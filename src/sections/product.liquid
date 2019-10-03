@@ -27,8 +27,10 @@
   <div class="col-sm-6 col-lg-5">
 
     <h1>{{ product.title }}</h1>
-    <p>{{ product.vendor }}</p>
 
+    <div class="rte">
+      {{ product.description }}
+    </div>
 
     {% form 'product', product, data-product-form: '', data-product-handle: product.handle, data-enable-history-state: 'true' %}
       {% unless product.has_only_default_variant %}
@@ -78,8 +80,7 @@
         </select>
       </noscript>
 
-      <label for="Quantity">{{ 'products.product.quantity' | t }}</label>
-      <input type="number" id="Quantity" name="quantity" value="1" min="1">
+      <input type="hidden" id="Quantity" name="quantity" value="1">
 
       <div data-price-wrapper>
         <span data-product-price>
@@ -110,14 +111,6 @@
           </span>
       </button>
     {% endform %}
-
-    <div class="rte">
-      {{ product.description }}
-    </div>
-
-    {% if section.settings.show_share_buttons %}
-      {% include 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product %}
-    {% endif %}
 
     </div>
   </div>
