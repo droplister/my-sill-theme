@@ -1,12 +1,15 @@
 @charset 'UTF-8';
 
 /**
- * [replace with theme name] | Built with Slate
+ * My Sill Theme | Built with Slate
  */
 @import '~normalize.css/normalize';
 
 // Settings
 @import './variables';
+
+// Grid
+@import "~bootstrap/scss/bootstrap";
 
 // Tools
 @import './tools/mixins';
