@@ -25,7 +25,7 @@
     </div>
   {%- endif -%}
 
-  <header role="banner">
+  <header role="banner" class="container-fluid">
     {% if template.name == 'index' %}
       <h1>
     {% else %}
@@ -46,12 +46,6 @@
     {% else %}
       </div>
     {% endif %}
-
-    <a href="/cart">
-      {% include 'icon-cart' %}
-      {{ 'layout.cart.title' | t }}
-      ({{ cart.item_count }} {{ 'layout.cart.items_count' | t: count: cart.item_count }})
-    </a>
 
     {% if shop.customer_accounts_enabled %}
       <ul>
@@ -94,6 +88,13 @@
         <span class="icon-fallback-text">{{ 'general.search.submit' | t }}</span>
       </button>
     </form>
+
+    <a href="/cart">
+      {% include 'icon-cart' %}
+      {{ 'layout.cart.title' | t }}
+      ({{ cart.item_count }} {{ 'layout.cart.items_count' | t: count: cart.item_count }})
+    </a>
+  
   </header>
 
   <nav role="navigation">

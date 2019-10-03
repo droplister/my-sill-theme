@@ -1,7 +1,7 @@
-<section data-section-id="{{ section.id }}" data-section-type="product">
+<section data-section-id="{{ section.id }}" data-section-type="product" class="container">
 
   <div class="row">
-    <div class="col-sm-6 col-lg-5 offset-lg-1">
+    <div class="col-sm-6 offset-lg-1">
 
       {%- assign current_variant = product.selected_variant -%}
       {%- assign featured_image = current_variant.featured_image | default: product.featured_image -%}
@@ -26,7 +26,24 @@
   </div>
   <div class="col-sm-6 col-lg-5">
 
-    <h1>{{ product.title }}</h1>
+    <div class="product__price" data-price-wrapper>
+      <span data-product-price>
+        {{ current_variant.price | money }}
+      </span>
+
+      {% if product.compare_at_price_max > product.price %}
+        <span class="visually-hidden" data-compare-text>{{ 'products.product.regular_price' | t }}</span>
+        <s data-compare-price>
+          {% if current_variant.compare_at_price > current_variant.price %}
+            {{ current_variant.compare_at_price | money }}
+          {% endif %}
+        </s>
+      {% endif %}
+    </div>
+
+    <h1 class="product__title">
+      {{ product.title }}
+    </h1>
 
     <div class="rte">
       {{ product.description }}
@@ -81,21 +98,6 @@
       </noscript>
 
       <input type="hidden" id="Quantity" name="quantity" value="1">
-
-      <div data-price-wrapper>
-        <span data-product-price>
-          {{ current_variant.price | money }}
-        </span>
-
-        {% if product.compare_at_price_max > product.price %}
-          <span class="visually-hidden" data-compare-text>{{ 'products.product.regular_price' | t }}</span>
-          <s data-compare-price>
-            {% if current_variant.compare_at_price > current_variant.price %}
-              {{ current_variant.compare_at_price | money }}
-            {% endif %}
-          </s>
-        {% endif %}
-      </div>
 
       <button
         type="submit"
