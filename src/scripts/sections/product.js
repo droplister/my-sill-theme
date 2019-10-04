@@ -41,7 +41,6 @@ const selectors = {
 register('product', {
   async onLoad() {
     const productFormElement = document.querySelector(selectors.productForm);
-    const variantUrlParameter = window.location.search.split('variant=')[1];
 
     this.product = await this.getProductJson(
       productFormElement.dataset.productHandle,
@@ -56,9 +55,6 @@ register('product', {
 
     this.container.addEventListener('click', this.onThumbnailClick);
     this.container.addEventListener('keyup', this.onThumbnailKeyup);
-
-    this.renderSubmitButtonOnLoad(variantUrlParameter);
-    this.renderColorOptionsOnLoad(variantUrlParameter);
   },
 
   onUnload() {
@@ -92,10 +88,6 @@ register('product', {
     event.preventDefault();
 
     cart.addItem(variant.id, { quantity }).then(item => {
-      console.log(
-        `An item with a quantity of ${quantity} was added to your cart:`,
-        item
-      );
       document.querySelector('.cart-count').innerText = item.item_count;
     });
   },
@@ -132,16 +124,8 @@ register('product', {
     const colorOptionsElement = this.container.querySelector(selectors.colorOptions);
     const colorHelpTextElement = this.container.querySelector(selectors.colorHelpText);
 
-    colorOptionsElement.classList.toggle(classes.hide, !variant);
-    colorHelpTextElement.classList.toggle(classes.hide, variant);
-  },
-
-  renderColorOptionsOnLoad(variantUrlParameter) {
-    const colorOptionsElement = this.container.querySelector(selectors.colorOptions);
-    const colorHelpTextElement = this.container.querySelector(selectors.colorHelpText);
-
-    colorOptionsElement.classList.toggle(classes.hide, !variantUrlParameter);
-    colorHelpTextElement.classList.toggle(classes.hide, typeof variantUrlParameter !== 'undefined');
+    colorOptionsElement.classList.toggle(classes.hide, !variant || variant.option3 == 'None');
+    colorHelpTextElement.classList.toggle(classes.hide, variant && variant.option3 != 'None');
   },
 
   renderSubmitButton(variant) {
@@ -159,18 +143,6 @@ register('product', {
     } else {
       submitButton.disabled = true;
       submitButtonText.innerHTML = formatMoney(variant.price, theme.moneyFormat) + ' &ndash; ' + theme.strings.soldOut;
-    }
-  },
-
-  renderSubmitButtonOnLoad(variantUrlParameter) {
-    const submitButton = this.container.querySelector(selectors.submitButton);
-    const submitButtonText = this.container.querySelector(
-      selectors.submitButtonText,
-    );
-
-    if (typeof variantUrlParameter === 'undefined') {
-      submitButton.disabled = true;
-      submitButtonText.innerText = theme.strings.unavailable;
     }
   },
 

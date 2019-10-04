@@ -10,7 +10,7 @@
     </div>
     <div class="product__thumbs col-sm-6 col-md-5 col-lg-6">
 
-      {%- assign current_variant = product.selected_variant -%}
+      {%- assign current_variant = product.selected_or_first_available_variant -%}
       {%- assign featured_image = current_variant.featured_image | default: product.featured_image -%}
 
       {% for image in product.images %}
@@ -83,6 +83,9 @@
             {% if forloop.index0 > 0 %}
 
               {% for value in option.values %}
+                {% if value == 'None' %}
+                  {% continue %}
+                {% endif %}
                 <input type="radio" id="Option{{ option.position }}-{{ value }}" name="options[{{ option.name }}]" value="{{ value }}"{% if option.selected_value == value %} checked{% endif %}>
                 <label for="Option{{ option.position }}-{{ value }}">
                   {% if option.name == 'Color' %}
@@ -107,7 +110,6 @@
               <select
                 id="Option{{ option.position }}"
                 name="options[{{ option.name | escape }}]">
-                <option value="">Grow pot</option>
                 {% for value in option.values %}
                   <option
                     value="{{ value | escape }}"
