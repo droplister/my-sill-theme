@@ -10,6 +10,7 @@ import {getUrlWithVariant, ProductForm} from '@shopify/theme-product-form';
 import {formatMoney} from '@shopify/theme-currency';
 import {register} from '@shopify/theme-sections';
 import {forceFocus} from '@shopify/theme-a11y';
+import * as cart from '@shopify/theme-cart';
 
 const classes = {
   hide: 'hide',
@@ -20,6 +21,8 @@ const keyboardKeys = {
 };
 
 const selectors = {
+  colorOptions: '.js-color',
+  colorHelpText: '.color-help-text',
   submitButton: '[data-submit-button]',
   submitButtonText: '[data-submit-button-text]',
   comparePrice: '[data-compare-price]',
@@ -38,12 +41,14 @@ const selectors = {
 register('product', {
   async onLoad() {
     const productFormElement = document.querySelector(selectors.productForm);
+    const variantUrlParameter = window.location.search.split('variant=')[1];
 
     this.product = await this.getProductJson(
       productFormElement.dataset.productHandle,
     );
     this.productForm = new ProductForm(productFormElement, this.product, {
       onOptionChange: this.onFormOptionChange.bind(this),
+      onFormSubmit: this.onFormSubmit.bind(this),
     });
 
     this.onThumbnailClick = this.onThumbnailClick.bind(this);
@@ -51,6 +56,9 @@ register('product', {
 
     this.container.addEventListener('click', this.onThumbnailClick);
     this.container.addEventListener('keyup', this.onThumbnailKeyup);
+
+    this.renderSubmitButtonOnLoad(variantUrlParameter);
+    this.renderColorOptionsOnLoad(variantUrlParameter);
   },
 
   onUnload() {
@@ -70,10 +78,26 @@ register('product', {
 
     this.renderImages(variant);
     this.renderPrice(variant);
+    this.renderColorOptions(variant);
     this.renderComparePrice(variant);
     this.renderSubmitButton(variant);
 
     this.updateBrowserHistory(variant);
+  },
+
+  onFormSubmit(event) {
+    const variant = event.dataset.variant;
+    const quantity = event.dataset.quantity;
+
+    event.preventDefault();
+
+    cart.addItem(variant.id, { quantity }).then(item => {
+      console.log(
+        `An item with a quantity of ${quantity} was added to your cart:`,
+        item
+      );
+      document.querySelector('.cart-count').innerText = item.item_count;
+    });
   },
 
   onThumbnailClick(event) {
@@ -104,6 +128,22 @@ register('product', {
     forceFocus(visibleFeaturedImageWrapper);
   },
 
+  renderColorOptions(variant) {
+    const colorOptionsElement = this.container.querySelector(selectors.colorOptions);
+    const colorHelpTextElement = this.container.querySelector(selectors.colorHelpText);
+
+    colorOptionsElement.classList.toggle(classes.hide, !variant);
+    colorHelpTextElement.classList.toggle(classes.hide, variant);
+  },
+
+  renderColorOptionsOnLoad(variantUrlParameter) {
+    const colorOptionsElement = this.container.querySelector(selectors.colorOptions);
+    const colorHelpTextElement = this.container.querySelector(selectors.colorHelpText);
+
+    colorOptionsElement.classList.toggle(classes.hide, !variantUrlParameter);
+    colorHelpTextElement.classList.toggle(classes.hide, typeof variantUrlParameter !== 'undefined');
+  },
+
   renderSubmitButton(variant) {
     const submitButton = this.container.querySelector(selectors.submitButton);
     const submitButtonText = this.container.querySelector(
@@ -115,10 +155,22 @@ register('product', {
       submitButtonText.innerText = theme.strings.unavailable;
     } else if (variant.available) {
       submitButton.disabled = false;
-      submitButtonText.innerText = theme.strings.addToCart;
+      submitButtonText.innerHTML = formatMoney(variant.price, theme.moneyFormat) + ' &ndash; ' + theme.strings.addToCart;
     } else {
       submitButton.disabled = true;
-      submitButtonText.innerText = theme.strings.soldOut;
+      submitButtonText.innerHTML = formatMoney(variant.price, theme.moneyFormat) + ' &ndash; ' + theme.strings.soldOut;
+    }
+  },
+
+  renderSubmitButtonOnLoad(variantUrlParameter) {
+    const submitButton = this.container.querySelector(selectors.submitButton);
+    const submitButtonText = this.container.querySelector(
+      selectors.submitButtonText,
+    );
+
+    if (typeof variantUrlParameter === 'undefined') {
+      submitButton.disabled = true;
+      submitButtonText.innerText = theme.strings.unavailable;
     }
   },
 

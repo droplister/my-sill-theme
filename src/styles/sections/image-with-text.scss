@@ -1,11 +1,28 @@
 .image-with-text {
   display: flex;
   flex-wrap: wrap;
+  margin: 5rem 0;
+}
+
+@include media-query($medium-down) {
+  .image-with-text {
+    margin: 2rem 0 10rem 0;
+  }
+}
+
+.image-with-text h2 {
+  margin-bottom: 1.5rem;
 }
 
 .image-with-text__image {
   flex: 0 1 50%;
   min-width: 320px;
+}
+
+@include media-query($medium-down) {
+  .image-with-text__image {
+    margin: 0 0 4rem;
+  }
 }
 
 .image-with-text__text {

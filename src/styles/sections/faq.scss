@@ -1,0 +1,48 @@
+#shopify-section-faq {
+  padding: 6rem;
+}
+
+@include media-query($medium-down) {
+  #shopify-section-faq {
+    padding: 5rem;
+  }
+}
+
+.faq__row {
+  padding: 2rem 0;
+}
+
+.faq__container > .faq__row:first-child {
+  padding-top: 0;
+}
+
+.faq__container > .faq__row:not(:last-child) {
+  border-bottom: 1px solid #ccc;
+}
+
+.faq__title {
+  font-size: 4rem;
+  margin: 0 0 2rem;
+}
+
+.faq__question {
+  font-size: 1.6rem;
+}
+
+.faq__question a {
+  display: block;
+  cursor: pointer;
+}
+
+.faq__answer {
+  margin: 2rem 0 0;
+}
+
+.faq__end {
+  margin: 1rem 0 0;
+}
+
+.faq__end a {
+  color: #00ab84;
+  font-weight: bold;
+}

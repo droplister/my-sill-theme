@@ -1,0 +1,32 @@
+#shopify-section-vendor-box {
+  padding: 10rem 0;
+  background: #F4F4F2;
+  background-image: url("{{ 'vendor-leaf-green.png' | asset_url }}");
+  background-repeat: no-repeat;
+  background-position: right 80px bottom;
+}
+
+.vendor__details {
+  z-index: 200;
+  padding: 6rem;
+  position: relative;
+  background: #FFFFFF;
+}
+
+@include media-query($medium-down) {
+  .vendor__details {
+    padding: 5rem;
+  }
+}
+
+.vendor__leaf-blue {
+  position: absolute;
+  top: -5rem;
+  left: -150px;
+  z-index: 100;
+}
+
+.vendor__title {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}

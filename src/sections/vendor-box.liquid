@@ -1,0 +1,28 @@
+{% assign vendor_handle = product.vendor | handleize %}
+{% assign vendor_collection = collections[vendor_handle] %}
+
+{% if vendor_collection != blank %}
+
+  <section data-section-id="{{ section.id }}" data-section-type="vendor" class="container-fluid">
+
+    <div class="row">
+      <div class="col col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+        <img class="vendor__leaf-blue" src="{{ 'vendor-leaf-blue.png' | asset_url }}" />
+        <div class="vendor__details">
+          <h3 class="vendor__title">
+            {{ vendor_collection.title }}
+          </h3>
+          {{ vendor_collection.description }}
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Product Vendor"
+  }
+{% endschema %}

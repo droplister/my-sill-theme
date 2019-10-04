@@ -1,0 +1,21 @@
+.navbar {
+  padding: 0.5rem 4rem;
+}
+
+@include media-query($medium-down) {
+  .navbar {
+    padding: 0.5rem 2rem 0.5rem 1rem;
+  }
+}
+
+.navbar .nav-item {
+  margin: 0 0.75rem;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: #000000;
+}
+
+.navbar .dropdown-item {
+  font-size: 1.4rem;
+}

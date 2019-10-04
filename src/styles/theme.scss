@@ -25,6 +25,8 @@
 @import './core/typography';
 
 // Components
+@import './components/banner';
+@import './components/navbar';
 @import './components/buttons';
 @import './components/hero-banner';
 @import './components/icons';
@@ -33,6 +35,8 @@
 @import './components/address-forms';
 
 // Sections
+@import './sections/faq';
+@import './sections/vendor-box';
 @import './sections/blog-posts';
 @import './sections/collection-list';
 @import './sections/featured-collection';

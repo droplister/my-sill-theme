@@ -12,130 +12,71 @@
 {%- endcomment -%}
 <section data-section-id="{{ section.id }}" data-section-type="header">
   {%- if section.settings.announcement_bar_enabled -%}
-    <div>
       {%- if section.settings.announcement_bar_home_page_only == false or template.name == 'index' -%}
-        {%- if section.settings.announcement_bar_link != blank -%}
-          <a href="{{ section.settings.announcement_bar_link }}">
-            {{ section.settings.announcement_bar_text | escape }}
-          </a>
-        {%- else -%}
-          <p>{{ section.settings.announcement_bar_text | escape }}</p>
-        {%- endif -%}
+        <div class="banner">
+          {%- if section.settings.announcement_bar_link != blank -%}
+            <a href="{{ section.settings.announcement_bar_link }}">
+              {{ section.settings.announcement_bar_text | escape }}
+            </a>
+          {%- else -%}
+            <p>{{ section.settings.announcement_bar_text | escape }}</p>
+          {%- endif -%}
+        </div>
       {%- endif -%}
-    </div>
   {%- endif -%}
 
-  <header role="banner" class="container-fluid">
-    {% if template.name == 'index' %}
-      <h1>
-    {% else %}
-      <div class="h1">
-    {% endif %}
-        <a href="/" class="logo-image">
-          {% if section.settings.logo != blank %}
-            {% capture image_size %}{{ section.settings.logo_max_width }}x{% endcapture %}
-            <img src="{{ section.settings.logo | img_url: image_size }}"
-                srcset="{{ section.settings.logo | img_url: image_size }} 1x, {{ section.settings.logo | img_url: image_size, scale: 2 }} 2x"
-                alt="{{ section.settings.logo.alt | default: shop.name }}">
-          {% else %}
-            {{ shop.name }}
-          {% endif %}
-        </a>
-    {% if template.name == 'index' %}
-      </h1>
-    {% else %}
-      </div>
-    {% endif %}
-
-    {% if shop.customer_accounts_enabled %}
-      <ul>
-        {% if customer %}
-          <li>
-            {% if customer.first_name != blank %}
-              {% capture first_name %}<a href="/account">{{ customer.first_name }}</a>{% endcapture %}
-              {{ 'layout.customer.logged_in_as_html' | t: first_name: first_name }}
+  <nav class="navbar navbar-light navbar-expand-md bg-faded justify-content-center">
+    <div class="d-flex w-50 mr-auto">
+      <a href="/" class="navbar-brand">
+        {% if section.settings.logo != blank %}
+          {% capture image_size %}{{ section.settings.logo_max_width }}x{% endcapture %}
+          <img src="{{ section.settings.logo | img_url: image_size }}" alt="{{ section.settings.logo.alt | default: shop.name }}">
+        {% else %}
+          {{ shop.name }}
+        {% endif %}
+      </a>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar3">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse w-100" id="collapsingNavbar3">
+        <ul class="navbar-nav w-100 justify-content-start">
+          {% for link in linklists[section.settings.menu].links %}
+            {% if link.links != blank %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="{{ link.url }}" id="navbarDropdown{{ link.object.id }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {{ link.title }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown{{ link.object.id }}">
+                  {% for childlink in link.links %}
+                    <a class="dropdown-item" href="{{ childlink.url }}">{{ childlink.title }}</a>
+                  {% endfor %}
+                </div>
+              </li>
             {% else %}
-              <a href="/account">{{ 'layout.customer.account' | t }}</a>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ link.url }}">
+                  {{ link.title }}
+                </a>
+              </li>
             {% endif %}
-          </li>
-          <li>
-            {{ 'layout.customer.log_out' | t | customer_logout_link }}
-          </li>
-        {% else %}
-          <li>
-            {{ 'layout.customer.log_in' | t | customer_login_link }}
-          </li>
-          <li>
-            {{ 'layout.customer.create_account' | t | customer_register_link }}
-          </li>
-        {% endif %}
-      </ul>
-    {% endif %}
-
-    <form action="/search" method="get" role="search">
-      <label for="Search-{{ section.id }}" class="label-hidden">
-        {{ 'general.search.placeholder' | t }}
-      </label>
-
-      <input type="search"
-        name="q"
-        id="Search-{{ section.id }}"
-        value="{{ search.terms | escape }}"
-        placeholder="{{ 'general.search.placeholder' | t }}">
-
-      <button type="submit" class="button">
-        {% include 'icon-search' %}
-        <span class="icon-fallback-text">{{ 'general.search.submit' | t }}</span>
-      </button>
-    </form>
-
-    <a href="/cart">
-      {% include 'icon-cart' %}
-      {{ 'layout.cart.title' | t }}
-      ({{ cart.item_count }} {{ 'layout.cart.items_count' | t: count: cart.item_count }})
-    </a>
-  
-  </header>
-
-  <nav role="navigation">
-    <ul>
-      {% for link in linklists[section.settings.menu].links %}
-        {% if link.links != blank %}
-          <li>
-            <a href="{{ link.url }}">
-              {{ link.title }}
-              {% include 'icon-arrow-down' %}
-            </a>
-            <ul>
-              {% for childlink in link.links %}
-                <li>
-                  <a href="{{ childlink.url }}">
-                    {{ childlink.title }}
-                  </a>
-                </li>
-              {% endfor %}
-            </ul>
-          </li>
-        {% else %}
-          <li>
-            <a href="{{ link.url }}">
-              {{ link.title }}
-            </a>
-          </li>
-        {% endif %}
-      {% endfor %}
-    </ul>
+          {% endfor %}
+        </ul>
+        <ul class="nav navbar-nav ml-auto w-50 justify-content-end">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Log In</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/cart">
+                {{ 'layout.cart.title' | t }}
+                (<span class="cart-count">{{ cart.item_count }}</span>)
+              </a>
+            </li>
+        </ul>
+    </div>
   </nav>
-</section>
 
-{% if section.settings.logo != blank %}
-  <style>
-    .logo-image {
-      display: block;
-      max-width: {{ section.settings.logo_max_width }}px;
-    }
-  </style>
-{% endif %}
+</section>
 
 {% schema %}
   {

@@ -1,0 +1,55 @@
+<section data-section-id="{{ section.id }}" data-section-type="faq" class="container-fuild">
+
+  <div class="row">
+    <div class="col col-md-4">
+      <h2 class="faq__title">
+        FAQ headline here.
+      </h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div>
+    <div class="col col-md-6 offset-md-2">
+      <div class="faq__container" id="faqSection">
+        <div class="faq__row">
+          <h4 class="faq__question" id="questionOne">
+            <a data-toggle="collapse" data-target="#answerOne" aria-expanded="true" aria-controls="answerOne">
+              Frequently asked question number one will go here
+            </a>
+          </h4>
+          <div class="faq__answer collapse show" id="answerOne" aria-labelledby="questionOne" data-parent="#faqSection">
+            Then the answer to that frequently asked question will go here. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </div>
+        </div>
+        <div class="faq__row">
+          <h4 class="faq__question" id="questionTwo">
+            <a data-toggle="collapse" data-target="#answerTwo" aria-expanded="true" aria-controls="answerTwo">
+              Frequently asked question number two will go here
+            </a>
+          </h4>
+          <div class="faq__answer collapse" id="answerTwo" aria-labelledby="questionTwo" data-parent="#faqSection">
+            Then the answer to that frequently asked question will go here. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </div>
+        </div>
+        <div class="faq__row">
+          <h4 class="faq__question" id="questionThree">
+            <a data-toggle="collapse" data-target="#answerThree" aria-expanded="true" aria-controls="answerThree">
+              Frequently asked question number three will go here
+            </a>
+          </h4>
+          <div class="faq__answer collapse" id="answerThree" aria-labelledby="questionThree" data-parent="#faqSection">
+            Then the answer to that frequently asked question will go here. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </div>
+        </div>
+      </div>
+      <div class="faq__end">
+        <a href="#">Read More FAQs</a>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% schema %}
+  {
+    "name": "Sitewide FAQs"
+  }
+{% endschema %}
