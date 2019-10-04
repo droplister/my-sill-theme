@@ -83,26 +83,25 @@
             {% if forloop.index0 > 0 %}
 
               {% for value in option.values %}
-                {% if value == 'None' %}
-                  {% continue %}
-                {% endif %}
+                {% unless value == 'None' %}
                 <input type="radio" id="Option{{ option.position }}-{{ value }}" name="options[{{ option.name }}]" value="{{ value }}"{% if option.selected_value == value %} checked{% endif %}>
-                <label for="Option{{ option.position }}-{{ value }}">
-                  {% if option.name == 'Color' %}
-                    {% assign svg_icon = 'icon-' | append: value | handleize %}
-                    {% include svg_icon %}
-                    <span>{{ value }}</span>
-                    {% if value == 'Black' %}
-                      <div class="status">Waitlist</div>
-                    {% elsif value == 'Mint' %}
-                      <div class="status onsale">Sale</div>
+                  <label for="Option{{ option.position }}-{{ value }}">
+                    {% if option.name == 'Color' %}
+                      {% assign svg_icon = 'icon-' | append: value | handleize %}
+                      {% include svg_icon %}
+                      <span>{{ value }}</span>
+                      {% if value == 'Black' %}
+                        <div class="status">Waitlist</div>
+                      {% elsif value == 'Mint' %}
+                        <div class="status onsale">Sale</div>
+                      {% else %}
+                        <div class="status">&nbsp;</div>
+                      {% endif %}
                     {% else %}
-                      <div class="status">&nbsp;</div>
+                      {{ value }}
                     {% endif %}
-                  {% else %}
-                    {{ value }}
-                  {% endif %}
-                </label>
+                  </label>
+                {% endunless %}
               {% endfor %}
 
             {% else %}

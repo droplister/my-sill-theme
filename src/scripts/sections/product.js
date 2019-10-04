@@ -72,6 +72,13 @@ register('product', {
   onFormOptionChange(event) {
     const variant = event.dataset.variant;
 
+    if (!variant) {
+      var ele = document.getElementsByName("options[Color]");
+      for(var i=0;i<ele.length;i++) {
+        ele[i].checked = false;
+      }
+    }
+
     this.renderImages(variant);
     this.renderPrice(variant);
     this.renderColorOptions(variant);
